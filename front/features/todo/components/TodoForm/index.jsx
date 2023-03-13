@@ -4,17 +4,26 @@ import ButtonGroup from '@atlaskit/button/button-group'
 import LoadingButton from '@atlaskit/button/loading-button'
 import TextField from '@atlaskit/textfield'
 
-import Form, { Field as FieldForm, FormFooter } from '@atlaskit/form'
+import Form, { Field as FieldForm, FormFooter, ErrorMessage } from '@atlaskit/form'
 
-const Field = ({ name, label }) => (
+
+const Field = ({ name, label, validate = null }) => (
   <FieldForm
     aria-required={true}
     name={name}
     defaultValue=''
     label={label}
     isRequired
+    validate={validate}
   >
-    {({ fieldProps, error, valid }) => <TextField {...fieldProps} />}
+    {({ fieldProps, error, valid }) => (
+      <>
+        <TextField {...fieldProps} />
+        {error && (
+          <ErrorMessage>{error}</ErrorMessage>
+        )}
+      </>
+    )}
   </FieldForm>
 )
 
@@ -36,7 +45,19 @@ const TodoForm = ({ handleSubmit }) => (
     {({ formProps, submitting }) => (
       <form {...formProps}>
         <Field name={'project'} label={'Проект'} />
-        <Field name={'todo-count'} label={'Количество задач'} />
+        <Field
+          name={'todoCount'}
+          label={'Количество задач'}
+          validate={async (value) => {
+            if (Number.isInteger(Number(value))) {
+              return undefined
+            }
+
+            return new Promise((resolve) =>
+              setTimeout(resolve, 300),
+            ).then(() => 'Введите целое число')
+          }}
+        />
         <FormFooter>
           <ButtonGroup>
             <LoadingButton

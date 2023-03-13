@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest, delay } from 'redux-saga/effects'
+import { all, call, put, takeLatest } from 'redux-saga/effects'
 import { fetchTodoListRequest } from '../gateway/TodoGateway.js'
 import ACTIONS, {
   fetchTodoListSuccess,
@@ -6,10 +6,10 @@ import ACTIONS, {
 } from './actions.js'
 
 
-function* fetchTodoListWorker({ payload: filter }) {
-  yield delay(1000); // TODO: Убрать
+function* fetchTodoListWorker({ payload }) {
   try {
-    const todoList = yield call(fetchTodoListRequest, { ...filter })
+    const todoList = yield call(fetchTodoListRequest, payload)
+    console.log(`LOG: todoList`, todoList)
     yield put(fetchTodoListSuccess({ todoList }))
   } catch (error) {
     yield put(fetchTodoListError({ error: error.message }))

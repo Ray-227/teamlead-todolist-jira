@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { connect } from 'react-redux'
 
 import {
@@ -31,21 +31,13 @@ const Todo = ({
   todoFilter,
   isFetching,
   isError,
-  fetchTodoListDispatch,
+  fetchTodoList,
   filterTodoList,
   completedTodoListItemByID,
   uncompletedTodoListItemByID,
   removeTodoListItemByID,
 }) => {
   const [isFilter, setIsFilter] = useState(false)
-  
-  const fetchTodoList = useCallback(() => {
-    fetchTodoListDispatch()
-  }, [])
-
-  useEffect(() => {
-    fetchTodoList()
-  }, [])
 
   const handleCompletedTodo = useCallback(payload => {
     completedTodoListItemByID(payload)
@@ -60,7 +52,7 @@ const Todo = ({
   }, [])
 
   const handleSubmit = useCallback(payload => {
-    console.log('payload', payload)
+    fetchTodoList(payload)
   }, [])
 
   const renderTodo = useCallback(() => {
@@ -105,7 +97,7 @@ const Todo = ({
     <div>
       <h1 style={styles.heading} >{TodoHeader}</h1>
       <TodoForm handleSubmit={handleSubmit} />
-      {renderTodo()}
+      {!!(todoFilter.length || todoList.length) && renderTodo()}
     </div>
   )
 };
@@ -118,8 +110,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  fetchTodoListDispatch: () => {
-    dispatch(fetchTodoListAction())
+  fetchTodoList: payload => {
+    dispatch(fetchTodoListAction(payload))
   },
   filterTodoList: () => {
     dispatch(filterTodoListAction())
