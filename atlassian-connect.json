@@ -1,0 +1,30 @@
+{
+  "key": "teamlead",
+  "name": "Teamlead",
+  "description": "Todolist",
+  "baseUrl": "{{localBaseUrl}}",
+  "authentication": {
+    "type": "jwt"
+  },
+  "lifecycle": {
+    "installed": "/installed"
+  },
+  "scopes": [
+    "READ"
+  ],
+  "apiMigrations":{
+    "signed-install": true
+  },
+  "modules": {
+    "generalPages": [
+      {
+        "key": "teamlead-todoList",
+        "name": {
+          "value": "Teamlead TodoList"
+        },
+        "url": "/teamlead-todo",
+        "location": "system.top.navigation.bar"
+      }
+    ]
+  }
+}

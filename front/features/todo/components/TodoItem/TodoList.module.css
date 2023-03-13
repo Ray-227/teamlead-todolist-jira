@@ -1,0 +1,19 @@
+.wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  background-color: #c1dcff;
+  margin: 12px 0;
+  padding: 5px 20px;
+  border-radius: 3px;
+  text-align: left;
+
+  user-select: none;
+
+  width: 550px;
+}
+
+.completed {
+  background-color: #4c9bff;
+}
